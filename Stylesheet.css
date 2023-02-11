@@ -1,0 +1,22 @@
+/*CSS for Tooltip function*/
+.tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  z-index: 9999;
+  width: 120px;
+  background-color: rgb(53, 242, 229);
+  color: rgb(0, 0, 0);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  padding: 10px;
+}
+
+.tooltip-parent:hover .tooltiptext {
+  visibility: visible;
+}
+
+.mood-node-name-docusymbol,
+.mood-node-name-docubutton {
+  visibility: hidden;
+}
