@@ -194,6 +194,13 @@ function ssCheckRadioButtonValues(value, className, index) {
   return false;
 }
 
+/**
+ * @desc -  Checks if an inut field is a certain length of characters
+ * @param {String} className - Name of the element
+ * @param {String} childtag - The tag the input is wrapped in
+ * @param {Int} length - Length of characters to check for
+ * @returns {Boolean} True if specified length of the input text field equeals the input length given in the paramenter
+ */
 function ssValidateInputLength(className, childtag, length) {
   if (ssExists(className)) {
     var childnode = document
@@ -210,14 +217,29 @@ function ssValidateInputLength(className, childtag, length) {
   }
 }
 
+/**
+ * @desc - If you don't know how to grap an element without jquery, do it using this function
+ * @param {String} query - Name of the element
+ * @returns {*} - Whatever element/value in the DOM you are grapping
+ */
 function ssGetElementsFromJquery(query) {
   return $(query);
 }
 
+/**
+ * @desc - If you don't know how to count a collection of elements without jquery, do it using this function
+ * @param {String} query - If you don't know how to grap the number of elements without jquery, do it using this function
+ * @returns {*} - Whatever length of element in the DOM you are grapping
+ */
 function ssGetElementsLengthFromJquery(query) {
   return $(query).length;
 }
 
+/**
+ * @desc - Get the value attribute of an element with text input
+ * @param {String} className - Name of the element
+ * @returns
+ */
 function ssGetValueAttribute(className) {
   if (ssExists(className)) {
     return document.querySelector(".mood-node-name-" + className + " input")
@@ -227,12 +249,18 @@ function ssGetValueAttribute(className) {
   }
 }
 
-function ssSetValueAttribute(className, value) {
+/**
+ * @desc - Get the value (title attribute) of an element selected using the Multi Select Dropdown
+ * @param {String} className - Name of the element
+ * @returns {String} - The selected value of the dropdown
+ */
+function ssGetValueFromMultiSelectDropdown(className) {
   if (ssExists(className)) {
-    document.querySelector(".mood-node-name-" + className + " input").value =
-      value;
+    return ssGetElement(
+      className + " .dx-texteditor.dx-texteditor-empty.dx-widget.dx-textbox"
+    ).getAttribute("title");
   } else {
-    return null;
+    return false;
   }
 }
 
@@ -286,7 +314,7 @@ function ssShowMultipleElements(array) {
 
 /**
  * @desc - Remove an element from the DOM. Use this if you want to be able to target the element in the DOM, but want it to be invisible and not take up space from other elements.
- * @param {STRING} - Name of the element
+ * @param {String} - Name of the element
  */
 function ssRemove(className) {
   if (ssExists(className)) {
@@ -368,6 +396,59 @@ function ssAddToolTip(className, toolTipText, top, left) {
     var toolTipElement = ssGetNonMoodElement("tooltip-" + className);
     toolTipElement.style.top = top;
     toolTipElement.style.left = left;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * @desc - Disable an element
+ * @param {String} className - The name of the element to disable
+ */
+function ssDisableElement(className) {
+  if (ssExists(className)) {
+    ssGetElement(className).style.opacity = 0.5;
+    ssGetElement(className).style.pointerEvents = "none";
+  } else {
+    return null;
+  }
+}
+
+/**
+ * @desc - Enable an element that has been disabled
+ * @param {String} className - The name of the element to disable
+ */
+function ssEnableElement(className) {
+  if (ssExists(className)) {
+    ssGetElement(className).style.opacity = 1;
+    ssGetElement(className).style.pointerEvents = "";
+  } else {
+    return null;
+  }
+}
+
+/**
+ * @desc - Set the input value of a textfield
+ * @param {String} className - The name of the element to disable
+ * @param {String} className - The text to set the
+ */
+function ssSetValueAttribute(className, value) {
+  if (ssExists(className)) {
+    document.querySelector(".mood-node-name-" + className + " input").value =
+      value;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * @desc - Hide an element only in selected environments
+ * @param {String} environmentURL - Part of the URL in where the element should be hidden
+ * @param {String} className - The name of the element to hide
+ */
+function ssHideElementInEnvironment(environmentURL, className) {
+  if (window.location.href.includes(environmentURL)) {
+    document.querySelector(".mood-node-name-" + className).remove();
   } else {
     return null;
   }
@@ -466,13 +547,5 @@ function ssValidateMatrixWithcolor(parentClass, childClass) {
     if (parentList.includes(childList[i]))
       ssColorCell(childClass, childList[i], "green");
     else ssColorCell(childClass, childList[i], "red");
-  }
-}
-
-function ssHideElementInEnvironment(environmentURL, className) {
-  if (window.location.href.includes(environmentURL)) {
-    document.querySelector(".mood-node-name-" + className).remove();
-  } else {
-    return null;
   }
 }
